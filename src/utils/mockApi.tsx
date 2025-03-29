@@ -13,7 +13,7 @@ export const Datas: {
     title: 'Dashboard UI',
     description: 'Design the dashboard UI with charts and tables.',
     status: 'Pending',
-    dueDate: '2023-10-01',
+    dueDate: '2025-10-01',
     assigned: 'John Doe',
   },
   {
@@ -29,7 +29,7 @@ export const Datas: {
     title: 'Pagination',
     description: 'Add pagination to the dashboard table.',
     status: 'Completed',
-    dueDate: '2023-10-03',
+    dueDate: '2021-10-03',
     assigned: 'Samson',
   },
   {

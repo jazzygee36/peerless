@@ -37,6 +37,8 @@ export interface DashboardTableProps {
     assigned: string;
   }[];
   updateStatus: (id: number, newStatus: Status) => void;
+  sortOrder: 'asc' | 'desc';
+  setSortOrder: React.Dispatch<React.SetStateAction<'asc' | 'desc'>>;
 }
 
 export interface SelectedTableProps {

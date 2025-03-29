@@ -9,40 +9,45 @@ const color: Record<Status, string> = {
   'In Progress': '#5534A5',
 };
 
-const DashboardTable = ({ data, updateStatus }: DashboardTableProps) => {
+const DashboardTable = ({
+  data,
+  updateStatus,
+  sortOrder,
+}: DashboardTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] =
     useState<SelectedTableProps | null>(null);
+
   const openModal = (transaction: SelectedTableProps) => {
     setSelectedTransaction(transaction);
     setIsModalOpen(true);
   };
 
-  // Close modal
   const closeModal = () => {
     setSelectedTransaction(null);
     setIsModalOpen(false);
   };
+
   return (
     <div className='overflow-x-auto'>
-      <table className='w-full border-collapse border border-gray-300'>
+      <table className='min-w-full border-collapse border border-gray-300'>
         {/* Table Head */}
-        <thead>
+        <thead className='hidden md:table-header-group'>
           <tr className='bg-[#F9FAFB]'>
-            <th className='p-3 text-left border border-[#EAECF0] text-[#475467] text-[14px] font-medium'>
+            <th className='p-3 border border-[#EAECF0] text-[#475467] text-sm font-medium text-left'>
               ID
             </th>
-            <th className='p-3 text-left border border-[#EAECF0] text-[#475467] text-[14px] font-medium'>
+            <th className='p-3 border border-[#EAECF0] text-[#475467] text-sm font-medium text-left'>
               Title
             </th>
-            <th className='p-3 text-left border border-[#EAECF0] text-[#475467] text-[14px] font-medium'>
+            <th className='p-3 border border-[#EAECF0] text-[#475467] text-sm font-medium text-left'>
               Description
             </th>
-            <th className='p-3 text-left border border-[#EAECF0] text-[#475467] text-[14px] font-medium'>
+            <th className='p-3 border border-[#EAECF0] text-[#475467] text-sm font-medium text-left'>
               Status
             </th>
-            <th className='p-3 text-left border border-[#EAECF0] text-[#475467] text-[14px] font-medium'>
-              Due Date
+            <th className='p-3 border border-[#EAECF0] text-[#475467] text-sm font-medium text-left'>
+              Due Date {sortOrder === 'asc' ? '↑' : '↓'}
             </th>
           </tr>
         </thead>
@@ -53,15 +58,17 @@ const DashboardTable = ({ data, updateStatus }: DashboardTableProps) => {
             <tr
               onClick={() => openModal(item)}
               key={item.id}
-              className='even:bg-gray-100 hover:bg-gray-200 cursor-pointer'
+              className='even:bg-gray-100 hover:bg-gray-200 cursor-pointer hidden md:table-row'
             >
-              <td className='p-3 border border-[#EAECF0]'>{item.id}</td>
-              <td className='p-3 border border-[#EAECF0]'>{item.title}</td>
-              <td className='p-3 border border-[#EAECF0]'>
+              <td className='p-3 border border-[#EAECF0] text-sm'>{item.id}</td>
+              <td className='p-3 border border-[#EAECF0] text-sm'>
+                {item.title}
+              </td>
+              <td className='p-3 border border-[#EAECF0] text-sm'>
                 {item.description}
               </td>
               <td
-                className='p-3 border border-[#EAECF0] relative'
+                className='p-3 border border-[#EAECF0]'
                 onClick={(e) => e.stopPropagation()}
               >
                 <select
@@ -79,45 +86,90 @@ const DashboardTable = ({ data, updateStatus }: DashboardTableProps) => {
                   ))}
                 </select>
               </td>
-              <td className='p-3 border border-[#EAECF0]'>{item.dueDate}</td>
+              <td className='p-3 border border-[#EAECF0] text-sm'>
+                {item.dueDate}
+              </td>
+            </tr>
+          ))}
+
+          {/* Mobile View */}
+          {data.map((item) => (
+            <tr
+              key={item.id}
+              className='md:hidden bg-white shadow-md rounded-lg p-4 my-2 block '
+            >
+              <td className='flex justify-between p-2'>
+                <span className='text-gray-500 font-medium'>Title:</span>
+                <span className='text-gray-700'>{item.title}</span>
+              </td>
+              <td className='flex justify-between p-2 '>
+                <span className='text-gray-500 font-medium  '>
+                  Description:
+                </span>
+
+                <span className='text-gray-500 font-medium text-right w-[60%]'>
+                  {item.description}
+                </span>
+              </td>
+              <td className='flex justify-between p-2'>
+                <span className='text-gray-500 font-medium'>Status:</span>
+                <select
+                  className='px-2 py-1 rounded-md text-xs font-semibold border outline-none cursor-pointer'
+                  style={{ color: color[item.status] }}
+                  value={item.status}
+                  onChange={(e) =>
+                    updateStatus(item.id, e.target.value as Status)
+                  }
+                >
+                  {Object.keys(color).map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td className='flex justify-between p-2'>
+                <span className='text-gray-500 font-medium'>Due Date:</span>
+                <span className='text-gray-700'>{item.dueDate}</span>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Modal */}
       <MainModal isOpen={isModalOpen} onClose={closeModal}>
         {selectedTransaction ? (
-          <div>
-            <div className='flex justify-between '>
-              <p className='text-[#475467] text-[14px] font-medium'>Title:</p>
-              <p className='text-[#475467] text-[14px] font-bold'>
+          <div className='mt-6'>
+            <div className='flex justify-between'>
+              <p className='text-[#475467] text-sm font-medium'>Title:</p>
+              <p className='text-[#475467] text-sm font-bold'>
                 {selectedTransaction.title}
               </p>
             </div>
             <hr className='my-4' />
 
             <div className='flex justify-between items-center'>
-              <p className='text-[#475467] text-[14px] font-medium'>
-                Description
-              </p>
-              <p className='text-[#475467] text-[14px] font-bold'>
+              <p className='text-[#475467] text-sm font-medium'>Description</p>
+              <p className='text-[#475467] text-sm font-bold '>
                 {selectedTransaction.description}
               </p>
             </div>
             <hr className='my-4' />
 
             <div className='flex justify-between items-center'>
-              <p className='text-[#475467] text-[14px] font-medium'>DueDate</p>
-              <p className='text-[#475467] text-[14px] font-bold'>
+              <p className='text-[#475467] text-sm font-medium'>DueDate</p>
+              <p className='text-[#475467] text-sm font-bold'>
                 {selectedTransaction.dueDate}
               </p>
             </div>
             <hr className='my-4' />
 
             <div className='flex justify-between items-center'>
-              <p className='text-[#475467] text-[14px] font-medium '>Status</p>
+              <p className='text-[#475467] text-sm font-medium'>Status</p>
               <span
                 style={{ color: color[selectedTransaction.status as Status] }}
-                className='text-[#475467] text-[14px] font-bold'
+                className='text-[#475467] text-sm font-bold'
               >
                 {selectedTransaction.status}
               </span>
@@ -125,10 +177,8 @@ const DashboardTable = ({ data, updateStatus }: DashboardTableProps) => {
             <hr className='my-4' />
 
             <div className='flex justify-between items-center'>
-              <p className='text-[#475467] text-[14px] font-medium'>
-                Assigned by
-              </p>
-              <p className='text-[#475467] text-[14px] font-bold'>
+              <p className='text-[#475467] text-sm font-medium'>Assigned by</p>
+              <p className='text-[#475467] text-sm font-bold'>
                 {selectedTransaction.assigned}
               </p>
             </div>

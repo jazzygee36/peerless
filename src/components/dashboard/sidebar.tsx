@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { ChartNoAxesCombined, X } from 'lucide-react';
 import Dashboard from '../../assets/svg/dashboard';
 
-const Links = [{ name: 'Dashboard', icon: Dashboard, path: '/dashboard' }];
+const Links = [
+  { name: 'Dashboard', icon: Dashboard, path: '/dashboard' },
+  { name: 'Analysis', icon: <ChartNoAxesCombined />, path: '/analysis' },
+];
 
 const Sidebar = ({
   isOpen,
@@ -71,7 +74,7 @@ const Sidebar = ({
                 }`}
               onClick={() => setIsOpen(false)}
             >
-              <item.icon />
+              {typeof item.icon === 'function' ? <item.icon /> : item.icon}
               <h2>{item.name}</h2>
             </div>
           ))}
