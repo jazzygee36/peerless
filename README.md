@@ -1,54 +1,29 @@
-# React + TypeScript + Vite
+# I created the project with Vite because it is fast and optimized for modern web applications.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+to start the project run: npm run dev
 
-Currently, two official plugins are available:
+# 🛠️ Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React + Vite for a fast and efficient frontend.
+TypeScript for type safety and scalability.
+React Router for client-side navigation.
+Tailwind CSS for styling.
+Mock API for simulating backend data.
 
-## Expanding the ESLint configuration
+# 📝 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Users can see tasks assigned to them displayed in a table format.
+Users can filter tasks based on their status (e.g., "Pending", "In Progress", "Completed").
+Users can change the status of a task directly from the table.
+View Task Details
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+# Usage
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Visit the dashboard to view all tasks.
+Use the filter button to refine tasks by status.
+Click on a task row to view details about the task.
+Change the task status as needed.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# Test
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+To run test: run 'npx jest' in your terminal.

@@ -23,6 +23,8 @@ export interface inputProps {
   placeholder: string;
   type: string;
   width: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
 }
 
 export type Status = 'Pending' | 'In Progress' | 'Completed';

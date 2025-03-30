@@ -11,7 +11,7 @@ const Dashboard = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-
+  const [searchQuery, setSearchQuery] = useState('');
   const [tasks, setTasks] = useState<
     {
       id: number;
@@ -43,9 +43,11 @@ const Dashboard = () => {
   }, []);
 
   // Filtered data based on selected status
-  const filteredTasks = filter
-    ? tasks.filter((item) => item.status === filter)
-    : tasks;
+  const filteredTasks = tasks
+    .filter((item) => (filter ? item.status === filter : true)) // Filter by status
+    .filter((item) =>
+      item.title.toLowerCase().includes(searchQuery.toLowerCase())
+    ); // Filter by title
 
   // Sort tasks by due date
   const sortedTasks = [...filteredTasks].sort((a, b) => {
@@ -67,7 +69,13 @@ const Dashboard = () => {
     <MainDashboard title={'Dashboard'}>
       <div className='flex items-center justify-between mb-4 w-full'>
         <div className='hidden md:flex w-[60%]'>
-          <HomeInput placeholder={'Search...'} type={'text'} width={'60%'} />
+          <HomeInput
+            placeholder={'Search by Title...'}
+            type={'text'}
+            width={'60%'}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
 
         {/* Filter Button & Dropdown */}
